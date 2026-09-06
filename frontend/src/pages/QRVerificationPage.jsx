@@ -17,8 +17,8 @@ import {
   Activity,
 } from "lucide-react";
 
-const API_BASE = "/api/v1";
-
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL || "/api/v1";
 export default function QRVerificationPage({ token }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
