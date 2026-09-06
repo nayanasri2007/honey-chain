@@ -2,10 +2,11 @@ import io
 import secrets
 
 import qrcode
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.core.database import get_db
 from app.models.honey_batch import HoneyBatch
 from app.models.qr import QRCode
@@ -37,26 +38,14 @@ def verify_beekeeper(current_user: User):
 # FRONTEND URL
 # ============================================================
 
-def get_frontend_url(request: Request) -> str:
+def get_frontend_url() -> str:
     """
-    Determine the React frontend address.
+    Return the configured frontend URL.
 
-    When generated from the React application, the Origin header
-    normally contains:
-
-        http://localhost:5173
-
-    or:
-
-        http://10.5.11.167:5173
+    Production uses the Vercel frontend URL from FRONTEND_URL.
+    Local development uses the value configured in .env.
     """
-
-    origin = request.headers.get("origin")
-
-    if origin:
-        return origin.rstrip("/")
-
-    return "http://localhost:5173"
+    return settings.FRONTEND_URL.rstrip("/")
 
 
 # ============================================================
@@ -71,7 +60,6 @@ def get_frontend_url(request: Request) -> str:
 )
 def generate_qr_code(
     batch_id: int,
-    request: Request,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
@@ -97,7 +85,7 @@ def generate_qr_code(
     # Determine frontend URL
     # --------------------------------------------------------
 
-    frontend_url = get_frontend_url(request)
+    frontend_url = get_frontend_url()
 
     # --------------------------------------------------------
     # Check whether QR already exists
