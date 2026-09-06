@@ -9,9 +9,18 @@ from app.core.database import Base
 class HoneyBatch(Base):
     __tablename__ = "honey_batches"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
 
-    batch_code = Column(String(50), unique=True, nullable=False, index=True)
+    batch_code = Column(
+        String(50),
+        unique=True,
+        index=True,
+        nullable=False
+    )
 
     hive_id = Column(
         Integer,
@@ -19,17 +28,40 @@ class HoneyBatch(Base):
         nullable=False
     )
 
-    harvest_date = Column(DateTime, nullable=False)
-    quantity_kg = Column(Float, nullable=False)
+    quantity_kg = Column(
+        Float,
+        nullable=False
+    )
 
-    extraction_method = Column(String(100), nullable=False)
-    processing_status = Column(String(50), nullable=False, default="Harvested")
-    packaging_status = Column(String(50), nullable=False, default="Pending")
-    storage_location = Column(String(200), nullable=True)
+    harvest_date = Column(
+        DateTime,
+        default=datetime.now,
+        nullable=False
+    )
+
+    processing_status = Column(
+        String(100),
+        nullable=False
+    )
+
+    packaging_status = Column(
+        String(100),
+        nullable=False
+    )
+
+    storage_location = Column(
+    String(200),
+    nullable=True
+)
+
+    extraction_method = Column(
+        String(100),
+        nullable=False
+    )
 
     created_at = Column(
         DateTime,
-        default=datetime.utcnow,
+        default=datetime.now,
         nullable=False
     )
 
