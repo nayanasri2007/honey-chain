@@ -6,13 +6,20 @@ async function request(endpoint, options = {}) {
 
   const token = localStorage.getItem("access_token");
 
-  const config = {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
-  };
+ const config = {
+  ...options,
+  headers: {
+    ...(options.headers || {}),
+  },
+};
+
+if (
+  config.body &&
+  typeof config.body === "object" &&
+  !(config.body instanceof FormData)
+) {
+  config.headers["Content-Type"] = "application/json";
+}
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
