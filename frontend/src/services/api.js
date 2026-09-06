@@ -412,6 +412,6 @@ export const api = {
     ),
 
   // Public image endpoint
-  getQRCodeImage: (token) =>
-    `/api/v1/qr/image/${token}`,
+ getQRCodeImage: (token) =>
+  `${API_BASE_URL}/qr/image/${token}`,
 };
