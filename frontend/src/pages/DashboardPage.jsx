@@ -30,7 +30,8 @@ import {
   CartesianGrid,
 } from "recharts";
 
-const API_BASE = "/api/v1";
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL || "/api/v1";
 
 export default function DashboardPage() {
   const [stats, setStats] = useState(null);
@@ -44,7 +45,9 @@ export default function DashboardPage() {
         setRefreshing(true);
       }
 
-      const response = await fetch(`${API_BASE}/dashboards/overview`);
+      const response = await fetch(
+        `${API_BASE}/dashboards/overview`
+      );
 
       if (!response.ok) {
         throw new Error("Unable to load dashboard data");
