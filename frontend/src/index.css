@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .bg-radial-honey {
+    background: radial-gradient(circle at 50% 20%, rgba(245, 158, 11, 0.15), rgba(15, 23, 42, 1) 70%);
+  }
+  .glass-card {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(251, 191, 36, 0.15);
+  }
+  .glass-card-hover {
+    transition: all 0.3s ease;
+  }
+  .glass-card-hover:hover {
+    border-color: rgba(251, 191, 36, 0.4);
+    box-shadow: 0 0 25px rgba(245, 158, 11, 0.15);
+    transform: translateY(-2px);
+  }
+  .text-gradient-honey {
+    background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 50%, #d97706 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
