@@ -1,22 +1,46 @@
 import os
-from typing import List, Union
+from typing import List
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import AnyHttpUrl, field_validator
+
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "Honey Chain Backend"
     VERSION: str = "0.1.0"
     API_V1_STR: str = "/api/v1"
-    SECRET_KEY: str = os.getenv("SECRET_KEY", "honey-chain-secret-key-development-only")
+
+    SECRET_KEY: str = os.getenv(
+        "SECRET_KEY",
+        "honey-chain-secret-key-development-only"
+    )
+
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 8  # 8 days
 
-    # PostgreSQL compatible connection string with SQLite dev fallback
+    # ---------------------------------------------------------
+    # DATABASE
+    # ---------------------------------------------------------
+    # Local development:
+    #   SQLite is used automatically.
+    #
+    # Production:
+    #   Render PostgreSQL DATABASE_URL will override this.
+    # ---------------------------------------------------------
     DATABASE_URL: str = os.getenv(
-        "DATABASE_URL", 
+        "DATABASE_URL",
         "sqlite:///./honeychain_dev.db"
     )
 
-    # CORS origins
+    # ---------------------------------------------------------
+    # FRONTEND
+    # ---------------------------------------------------------
+    # Used for QR verification URLs in production.
+    FRONTEND_URL: str = os.getenv(
+        "FRONTEND_URL",
+        "http://localhost:5173"
+    )
+
+    # ---------------------------------------------------------
+    # CORS
+    # ---------------------------------------------------------
     CORS_ORIGINS: List[str] = [
         "http://localhost:5173",
         "http://127.0.0.1:5173",
@@ -29,5 +53,6 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore"
     )
+
 
 settings = Settings()
